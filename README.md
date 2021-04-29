@@ -1,2 +1,10 @@
 # rpi-nts-server
-Raspberry Pi 4B Based NTS Server
+How to setup a Raspberry Pi 4B Based NTS Server using Chrony
+
+# Hardware
+
+# Software
+
+# Testing
+
+# References
