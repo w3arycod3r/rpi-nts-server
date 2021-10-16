@@ -10,7 +10,7 @@ This tutorial will focus on the Stratum 1 server.
 1 x Raspberry Pi 4 power supply  
 1 x Raspberry Pi 4 case  
 1 x Adafruit Ultimate GPS HAT for Raspberry Pi A+/B+/Pi 2/3/Pi 4 - Mini Kit  
-1 x Passive GPS antenna  
+1 x Active GPS antenna  
 1 x PoE+ HAT  
 1 x PoE+ Switch or injector  
 
@@ -59,9 +59,11 @@ Here are some tuts on securing a raspberry pi:
 # Testing
 Testing can be done using pulse-per-second (PPS) generators on the server and a client device. We used another RPi 4 as a client and output this PPS signal to a GPIO pin. The client should also have chrony 4.0+ installed and be configured to sync with your server using NTS. If using self-signed certs, you will have to copy this cert to the client and configure it to trust the cert. 
 
-PPS script from pigpio site:  
+Download PPS script from pigpio site:  
+http://abyz.me.uk/rpi/pigpio/examples.html  
+http://abyz.me.uk/rpi/pigpio/code/pps_c.zip
 
-Using an oscilloscope, you can measure the phase difference between these PPS signals. This represents the accuracy of synchronization achieved.
+Using an oscilloscope, you can measure the phase difference between these PPS signals. This is a measure of the sub-second accuracy of synchronization achieved.
 # References
 https://chrony.tuxfamily.org/faq.html  
 https://chrony.tuxfamily.org/doc/4.0/chrony.conf.html
