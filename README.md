@@ -13,7 +13,7 @@ Self-signed certificates can be used to authenticate the local connection betwee
 1 x PoE+ HAT  
 1 x PoE+ Switch or injector  
 
-# Hardware Notes
+## Notes
 The external GPS antenna may not be required if signal is good enough on the antenna built into the HAT
 
 # Software
