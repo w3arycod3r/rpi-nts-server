@@ -18,19 +18,32 @@ This tutorial will focus on the Stratum 1 server.
 The external GPS antenna may not be required if signal is good enough on the antenna built into the HAT
 
 # Software
-## Raspbian
-A recent version of raspbian should be installed and set up on an SD card. Here is a nice tutorial from Raspberry Pi:  
+## Raspberry Pi OS
+A recent version of Raspberry Pi OS should be installed and set up on an SD card. Here is a nice tutorial from Raspberry Pi:  
 https://projects.raspberrypi.org/en/projects/raspberry-pi-getting-started  
 
-Another distro, such as Ubuntu could be used as well, but this tutorial will focus on raspbian.
+Another distro, such as Ubuntu could be used as well, but this tutorial will focus on Raspberry Pi OS.
 ## gpsd
 Follow this tutorial from Adafruit to configure your GPS HAT:  
 https://learn.adafruit.com/adafruit-ultimate-gps-hat-for-raspberry-pi/
 
+Essentially, gpsd will communicate with the GPS module over the serial link, interpret the NMEA sentences along with the PPS signal, and provide location and time information to other programs that request it.
+
+We will need to pipe this data into chrony so that we can use it to serve accurate, precise time to clients.
+
 Deviations from tutorial:  
 
 ## chrony
-chrony 4.0 or later should be installed (4.0 added NTS support). Recent versions of raspbian or other distros should include this.  
+chrony 4.0 or later should be installed (4.0 added NTS support). Recent versions of Raspberry Pi OS or other distros should include this in the default repos.
+
+Raspberry Pi OS includes NTPD by default. Installing chrony replaces this. Install chrony with:
+```
+sudo apt-get install chrony
+```
+Check the version with:
+```
+chronyc -v
+```
 
 Make these changes to /etc/chrony/chrony.conf :  
 
