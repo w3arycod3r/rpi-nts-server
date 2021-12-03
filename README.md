@@ -221,7 +221,7 @@ ntstrustedcerts /etc/ssl/chrony_certs/nts.crt
 
 Explanation of these changes:
 1. Configure the client to use your server as a time source. Make sure the domain name here matches the actual domain name as well as the domain name on the certificate. Note the "nts" option. This instructs chrony to make this connection using the nts standard.
-2. Instruct chrony to trust the self-signed certificate that we generated and copied earlier. This is required since this cert was not signed by a certificate authority (CA). If you are using a CA signed cert, this line should not be neccessary. In that case, the cert should be automatically copied through the network and validated when the first connection is made.
+2. Instruct chrony to trust the self-signed certificate that we generated and copied earlier. This is required since this cert was not signed by a certificate authority (CA). If you are using a CA signed cert, this line should not be necessary. In that case, the cert should be automatically copied through the network and validated when the first connection is made.
 
 Complete example config file for a client: [chrony_client.conf](chrony_client.conf)
 
