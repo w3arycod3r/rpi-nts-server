@@ -3,9 +3,9 @@ A tutorial on configuring a Raspberry Pi Based Stratum 1 (GPS fed) NTS Server us
 
 This server is intended to be located near a window, powered by PoE, feeding a Stratum 2 NTS server (public facing) located in a server room.
 Self-signed certificates can be used to authenticate the local connection between these two servers, but you will want a properly signed cert for the public facing server.
-This tutorial will focus on the Stratum 1 server.  
+This tutorial will focus on the Stratum 1 server, and show how to connect one client device as an example. We used another Raspberry Pi for simplicity. This client device could be replaced with your Stratum 2 server.  
 
-# Hardware
+# Server Hardware
 1 x 4 GB Raspberry Pi 4B  
 1 x Raspberry Pi 4 power supply  
 1 x Raspberry Pi 4 case  
@@ -17,10 +17,15 @@ This tutorial will focus on the Stratum 1 server.
 ## Notes
 The external GPS antenna may not be required if signal is good enough on the antenna built into the HAT
 
+# Example Client Hardware
+1 x 4 GB Raspberry Pi 4B  
+1 x Raspberry Pi 4 power supply  
+
 # Software
 ## Raspberry Pi OS
 A recent version of Raspberry Pi OS should be installed and set up on an SD card. Here is a nice tutorial from Raspberry Pi:  
 https://projects.raspberrypi.org/en/projects/raspberry-pi-getting-started  
+Repeat this for a separate SD card to be used with the client Pi.
 
 Another distro, such as Ubuntu could be used as well, but this tutorial will focus on Raspberry Pi OS.
 ## gpsd
@@ -33,7 +38,7 @@ We will need to pipe this data into chrony so that we can use it to serve accura
 
 Deviations from tutorial:  
 
-## chrony
+## Install chrony
 chrony 4.0 or later should be installed (4.0 added NTS support). Recent versions of Raspberry Pi OS or other distros should include this in the default repos.
 
 Raspberry Pi OS includes NTPD by default. Installing chrony replaces this. Install chrony with:
@@ -45,6 +50,9 @@ Check the version with:
 chronyc -v
 ```
 
+Repeat these steps for the client Pi as well.
+
+# Configure chrony (Server)
 Make these changes to /etc/chrony/chrony.conf :  
 
 ```
@@ -127,6 +135,8 @@ chmod +x gen_certs.sh
 sudo ./gen_certs.sh
 ```
 
+# Configure chrony (Client)
+
 At this point you should have the cert and key in the /etc/ssl/chrony_certs folder. Now you need to copy the cert to your client device (or Stratum 2 server). Do that using scp (ssh copy):
 
 ```
@@ -143,14 +153,26 @@ Example config file for a client: [chrony_client.conf](chrony_client.conf)
 # Security Hardening
 Since you are obviously security minded, it is also a good idea to secure your server in other ways. A big fancy lock on your front door does little good if your back window is open :)  
 
-Here are some tuts on securing a raspberry pi:
+Here are some tuts on securing a Raspberry Pi:
 
 # Testing
-Testing can be done using pulse-per-second (PPS) generators on the server and a client device. We used another RPi 4 as a client and output this PPS signal to a GPIO pin. The client should also have chrony 4.0+ installed and be configured to sync with your server using NTS. If using self-signed certs, you will have to copy this cert to the client and configure it to trust the cert. 
+Once you have the server and client properly communicating via chrony and NTS, you can test the performance of the system. This can be done using pulse-per-second (PPS) generators on both the server and client.
 
-Download PPS script from pigpio site:  
+Download "Pulse Per Second generator" from pigpio site:  
 http://abyz.me.uk/rpi/pigpio/examples.html  
-http://abyz.me.uk/rpi/pigpio/code/pps_c.zip
+
+Extract the code, compile, and run using these commands:
+```
+sudo apt-get install unzip build-essential
+unzip pps_c.zip
+cd pps_c
+gcc -o pps pps.c -lpigpio
+sudo ./pps -g 17
+```
+The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location.  
+![Screenshot 2021-12-03 124353](https://user-images.githubusercontent.com/18043699/144656098-41f1dfdf-a67f-4261-a90b-1225f2cb8060.png)
+
+Repeat these steps for both the server and client.
 
 Using an oscilloscope, you can measure the phase difference between these PPS signals. This is a measure of the sub-second accuracy of synchronization achieved.
 # References
