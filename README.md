@@ -124,6 +124,11 @@ chmod +x gen_certs.sh
 sudo ./gen_certs.sh
 ```
 
+If you print out these files, you should see something similar to:  
+
+![self_signed_cert_and_key.png](self_signed_cert_and_key.png)
+
+
 # Configure chrony (Server)
 Make these changes to /etc/chrony/chrony.conf :  
 
@@ -180,6 +185,15 @@ You should see an output similar to:
 
 ![server_sources.png](img/server_sources.png)
 
+Check the chrony logs for errors with:
+
+```
+cat /var/log/syslog | grep chrony
+```
+
+If you see an error similar to: "error while setting credentials", this means chrony cannot read your key and/or certificate. This is likely a permissions issue. Go check the permissions on the directory tree leading to the key and cert as well as the key and cert files themselves.
+
+If you don't see any concerning errors, you can (probably) assume that the server is ready to serve time using NTS.
 
 # Configure chrony (Client)
 
@@ -211,7 +225,20 @@ Explanation of these changes:
 
 Complete example config file for a client: [chrony_client.conf](chrony_client.conf)
 
+Restart chrony and check the sources using the commands shown in the server section. You should see a similar output to:  
 
+![client_sources.png](img/client_sources.png)
+
+To verify that NTS is indeed being used for the connection, execute:
+```
+sudo chronyc -N authdata
+```
+
+You should see output similar to:
+
+![client_authdata.png](img/client_authdata.png)
+
+Note "NTS" in the "Mode" column. These three letters are hard-fought.
 
 # Security Hardening
 Since you are obviously security minded, it is also a good idea to secure your server in other ways. A big fancy lock on your front door does little good if your back window is open :)  
@@ -235,7 +262,9 @@ cd pps_c
 gcc -o pps pps.c -lpigpio
 sudo ./pps -g 17
 ```
-The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program.  
+The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program. Sample output from this program is also shown below:
+
+![pps_output.png](img/pps_output.png)
 
 ![gpio_pinout.png](img/gpio_pinout.png)
 
@@ -245,3 +274,4 @@ Using an oscilloscope, you can measure the phase difference between these PPS si
 # References
 https://chrony.tuxfamily.org/faq.html  
 https://chrony.tuxfamily.org/doc/4.0/chrony.conf.html
+https://gist.github.com/mlichvar/e6b183daa16599d7985dc81fdde7af39
