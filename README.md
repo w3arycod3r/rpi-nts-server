@@ -36,8 +36,6 @@ Essentially, gpsd will communicate with the GPS module over the serial link, int
 
 We will need to pipe this data into chrony so that we can use it to serve accurate, precise time to clients.
 
-Deviations from tutorial:  
-
 ## Install chrony
 chrony 4.0 or later should be installed (4.0 added NTS support). Recent versions of Raspberry Pi OS or other distros should include this in the default repos.
 
