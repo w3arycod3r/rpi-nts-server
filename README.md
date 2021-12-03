@@ -245,7 +245,12 @@ Note "NTS" in the "Mode" column. These three letters are hard-fought.
 # Security Hardening
 Since you are obviously security minded, it is also a good idea to secure your server in other ways. A big fancy lock on your front door does little good if your back window is open :)  
 
-Here are some tuts on securing a Raspberry Pi:
+Here are some tuts on securing a Raspberry Pi:  
+
+https://pimylifeup.com/raspberry-pi-security/  
+https://raspberrytips.com/security-tips-raspberry-pi/  
+https://makezine.com/2017/09/07/secure-your-raspberry-pi-against-attackers/  
+
 
 # Testing
 Once you have the server and client properly communicating via chrony and NTS, you can test the performance of the system. This can be done using pulse-per-second (PPS) generators on both the server and client.
