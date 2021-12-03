@@ -185,6 +185,8 @@ You should see an output similar to:
 
 ![server_sources.png](img/server_sources.png)
 
+Note the * in the "S" column. This indicates that chrony has chosen this source and is synchronized to it.
+
 Check the chrony logs for errors with:
 
 ```
@@ -212,9 +214,9 @@ Make these changes to /etc/chrony/chrony.conf :
 
 ```
 ###### below this line are custom config changes #######
+
 server nts-server.local nts iburst minpoll 3 maxpoll 5
 ntstrustedcerts /etc/ssl/chrony_certs/nts.crt
-
 
 ###### above this line are custom config changes #######
 ```
