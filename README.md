@@ -126,7 +126,7 @@ sudo ./gen_certs.sh
 
 If you print out these files, you should see something similar to:  
 
-![self_signed_cert_and_key.png](self_signed_cert_and_key.png)
+![self_signed_cert_and_key.png](img/self_signed_cert_and_key.png)
 
 
 # Configure chrony (Server)
