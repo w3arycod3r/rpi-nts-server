@@ -52,17 +52,6 @@ chronyc -v
 
 Repeat these steps for the client Pi as well.
 
-# Configure chrony (Server)
-Make these changes to /etc/chrony/chrony.conf :  
-
-```
-function test() {
-  console.log("notice the blank line before this function?");
-}
-```
-
-Example config file for the server: [chrony_server.conf](chrony_server.conf)
-
 ## Self-Signed Certificate
 You will first need to install GnuTLS in order to use the certtool command. Install using:
 ```
@@ -135,6 +124,63 @@ chmod +x gen_certs.sh
 sudo ./gen_certs.sh
 ```
 
+# Configure chrony (Server)
+Make these changes to /etc/chrony/chrony.conf :  
+
+```
+###### below this line are custom config changes #######
+
+# delay determined experimentally by setting noselect then monitoring for a few hours
+# 0.325 means the NMEA time sentence arrives 325 milliseconds after the PPS pulse
+# the delay adjusts it forward
+refclock SHM 0 offset 0.569 delay 0 refid NMEA noselect poll 1
+refclock PPS /dev/pps0 lock NMEA refid PPS poll 1
+
+# Step the system clock instead of slewing it if the adjustment is larger than
+# one second, but only in the first three clock updates.
+makestep 1 5
+
+# HW Clock as last resort
+local stratum 10
+
+# allow a single client on local network
+allow 192.168.1.2
+
+# NTS (SSL) Certificate and Key
+ntsserverkey /etc/ssl/chrony_certs/nts.key
+ntsservercert /etc/ssl/chrony_certs/nts.crt
+
+###### above this line are custom config changes #######
+```
+
+Explanation of these changes:
+1. Configure the interface between gpsd and chrony. SHM 0 is a "shared memory" channel between gpsd and chrony. The 0.569 delay represents the time between the NMEA sentence arriving via the serial link and the hard-wired PPS signal. This value needs to be roughly close to the actual delay so that chrony will accept the time source. Without this defined delay, chrony may mark the source as a "false ticker".
+2. Configure the PPS signal which is mapped to a linux "device" on /dev/pps0
+3. Allow the system clock to be stepped (large adjustment) in the first 5 clock updates. This will allow the clock to quickly synchronize on startup.
+4. The local HW clock (driven by the oscillator on the RPi alone) will be labeled as Stratum 10 (very imprecise).
+5. Allow only one IP to connect to this server. You may want to change this depending on your network setup.
+6/7. Import the self-signed cert and key we made earlier. Change the directory here if you stored them somewhere else.
+
+For more details on the format of the config file, read the chrony docs:
+https://chrony.tuxfamily.org/doc/4.1/chrony.conf.html
+
+Complete example config file for the server: [chrony_server.conf](chrony_server.conf)
+
+Restart chrony with:
+```
+sudo systemctl restart chronyd
+```
+
+Verify that chrony is properly synchronized to the NMEA and PPS sources by running:
+```
+chronyc sources
+```
+
+You should see an output similar to:
+
+![server_sources.png](img/server_sources.png)
+
+
 # Configure chrony (Client)
 
 At this point you should have the cert and key in the /etc/ssl/chrony_certs folder. Now you need to copy the cert to your client device (or Stratum 2 server). Do that using scp (ssh copy):
@@ -148,7 +194,24 @@ https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/
 
 Now, change config of client chrony to accept the cert and use NTS for the connection.
 
-Example config file for a client: [chrony_client.conf](chrony_client.conf)
+Make these changes to /etc/chrony/chrony.conf :  
+
+```
+###### below this line are custom config changes #######
+server nts-server.local nts iburst minpoll 3 maxpoll 5
+ntstrustedcerts /etc/ssl/chrony_certs/nts.crt
+
+
+###### above this line are custom config changes #######
+```
+
+Explanation of these changes:
+1. Configure the client to use your server as a time source. Make sure the domain name here matches the actual domain name as well as the domain name on the certificate. Note the "nts" option. This instructs chrony to make this connection using the nts standard.
+2. Instruct chrony to trust the self-signed certificate that we generated and copied earlier. This is required since this cert was not signed by a certificate authority (CA). If you are using a CA signed cert, this line should not be neccessary. In that case, the cert should be automatically copied through the network and validated when the first connection is made.
+
+Complete example config file for a client: [chrony_client.conf](chrony_client.conf)
+
+
 
 # Security Hardening
 Since you are obviously security minded, it is also a good idea to secure your server in other ways. A big fancy lock on your front door does little good if your back window is open :)  
@@ -161,6 +224,9 @@ Once you have the server and client properly communicating via chrony and NTS, y
 Download "Pulse Per Second generator" from pigpio site:  
 http://abyz.me.uk/rpi/pigpio/examples.html  
 
+It is also duplicated in this repo for convenience:
+[pps_c.zip](pps_c.zip)
+
 Extract the code, compile, and run using these commands:
 ```
 sudo apt-get install unzip build-essential
@@ -169,9 +235,9 @@ cd pps_c
 gcc -o pps pps.c -lpigpio
 sudo ./pps -g 17
 ```
-The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location.  
+The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program.  
 
-![gpio_pinout.png](gpio_pinout.png)
+![gpio_pinout.png](img/gpio_pinout.png)
 
 Repeat these steps for both the server and client.
 
