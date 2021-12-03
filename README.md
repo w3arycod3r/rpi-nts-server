@@ -264,7 +264,7 @@ sudo ./pps -g 17
 ```
 The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program. Sample output from this program is also shown below:
 
-![pps_output.png](img/pps_output.png)
+![pps_output.png](img/pps_output.png)  
 
 ![gpio_pinout.png](img/gpio_pinout.png)
 
@@ -273,5 +273,5 @@ Repeat these steps for both the server and client.
 Using an oscilloscope, you can measure the phase difference between these PPS signals. This is a measure of the sub-second accuracy of synchronization achieved.
 # References
 https://chrony.tuxfamily.org/faq.html  
-https://chrony.tuxfamily.org/doc/4.0/chrony.conf.html
+https://chrony.tuxfamily.org/doc/4.0/chrony.conf.html  
 https://gist.github.com/mlichvar/e6b183daa16599d7985dc81fdde7af39
