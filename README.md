@@ -127,7 +127,7 @@ If you print out these files, you should see something similar to:
 ![self_signed_cert_and_key.png](img/self_signed_cert_and_key.png)
 
 
-# Configure chrony (Server)
+## Configure chrony (Server)
 Make these changes to /etc/chrony/chrony.conf :  
 
 ```
@@ -195,7 +195,7 @@ If you see an error similar to: "error while setting credentials", this means ch
 
 If you don't see any concerning errors, you can (probably) assume that the server is ready to serve time using NTS.
 
-# Configure chrony (Client)
+## Configure chrony (Client)
 
 At this point you should have the cert and key in the /etc/ssl/chrony_certs folder. Now you need to copy the cert to your client device (or Stratum 2 server). Do that using scp (ssh copy):
 
@@ -240,7 +240,7 @@ You should see output similar to:
 
 Note "NTS" in the "Mode" column. These three letters are hard-fought.
 
-# Security Hardening
+## Security Hardening
 Since you are obviously security minded, it is also a good idea to secure your server in other ways. A big fancy lock on your front door does little good if your back window is open :)  
 
 Here are some tuts on securing a Raspberry Pi:  
