@@ -170,7 +170,8 @@ gcc -o pps pps.c -lpigpio
 sudo ./pps -g 17
 ```
 The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location.  
-![Screenshot 2021-12-03 124353](https://user-images.githubusercontent.com/18043699/144656098-41f1dfdf-a67f-4261-a90b-1225f2cb8060.png)
+
+![gpio_pinout.png](gpio_pinout.png)
 
 Repeat these steps for both the server and client.
 
