@@ -124,7 +124,7 @@ sudo ./gen_certs.sh
 
 If you print out these files, you should see something similar to:  
 
-![self_signed_cert_and_key.png](img/self_signed_cert_and_key.png)
+![self_signed_cert_and_key_inv.png](img/self_signed_cert_and_key_inv.png)
 
 
 ## Configure chrony (Server)
@@ -181,7 +181,7 @@ chronyc sources
 
 You should see an output similar to:
 
-![server_sources.png](img/server_sources.png)
+![server_sources_inv.png](img/server_sources_inv.png)
 
 Note the * in the "S" column. This indicates that chrony has chosen this source and is synchronized to it.
 
@@ -227,7 +227,7 @@ Complete example config file for a client: [chrony_client.conf](chrony_client.co
 
 Restart chrony and check the sources using the commands shown in the server section. You should see a similar output to:  
 
-![client_sources.png](img/client_sources.png)
+![client_sources_inv.png](img/client_sources_inv.png)
 
 To verify that NTS is indeed being used for the connection, execute:
 ```
@@ -236,7 +236,7 @@ sudo chronyc -N authdata
 
 You should see output similar to:
 
-![client_authdata.png](img/client_authdata.png)
+![client_authdata_inv.png](img/client_authdata_inv.png)
 
 Note "NTS" in the "Mode" column. These three letters are hard-fought.
 
@@ -269,7 +269,7 @@ sudo ./pps -g 17
 ```
 The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program. Sample output from this program is also shown below:
 
-![pps_output.png](img/pps_output.png)  
+![pps_output_inv.png](img/pps_output_inv.png)  
 
 ![gpio_pinout.png](img/gpio_pinout.png)
 
