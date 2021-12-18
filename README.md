@@ -1,4 +1,6 @@
 # rpi-nts-server
+This project was created as part of Dr. Austen's Capstone (Senior Design) class at [Tennessee Technological University](https://www.tntech.edu/engineering/programs/ece/).
+
 A tutorial on configuring a Raspberry Pi Based Stratum 1 (GPS fed) NTS Server using chrony
 
 This server is intended to be located near a window, powered by PoE, feeding a Stratum 2 NTS server (public facing) located in a server room.
