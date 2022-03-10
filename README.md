@@ -16,6 +16,11 @@ This tutorial will focus on the Stratum 1 server, and show how to connect one cl
 1 x PoE+ HAT  
 1 x PoE+ Switch or injector  
 
+Below, you can see our server Pi, with the stack of HATs on top.
+<p align="center">
+  <img src="img/stack.jpg" height=300>
+</p>
+
 ## Notes
 The external GPS antenna may not be required if signal is good enough on the antenna built into the HAT
 
@@ -23,8 +28,10 @@ The external GPS antenna may not be required if signal is good enough on the ant
 1 x 4 GB Raspberry Pi 4B  
 1 x Raspberry Pi 4 power supply  
 
+Below, you can see our server and client devices networked together using a PoE switch.
+
 <p align="center">
-  <img src="img/setup.jpg" height=300> <img src="img/stack.jpg" height=300> <img src="img/poe.jpg" height=300>
+  <img src="img/setup.jpg" height=300> <img src="img/poe.jpg" height=300>
 </p>
 
 # Software
@@ -130,7 +137,9 @@ sudo ./gen_certs.sh
 
 If you print out these files, you should see something similar to:  
 
-![self_signed_cert_and_key_inv.png](img/self_signed_cert_and_key_inv.png)
+<p align="center">
+  <img src="img/self_signed_cert_and_key_inv.png" height=500>
+</p>
 
 
 ## Configure chrony (Server)
@@ -283,8 +292,10 @@ Repeat these steps for both the server and client.
 
 Using an oscilloscope, you can measure the phase difference between these PPS signals. This is a measure of the sub-second accuracy of synchronization achieved.
 
+Below are images of our experimental setup and one of the waveforms we captured while running NTS between the server and client.
+
 <p align="center">
-  <img src="img/exp_setup.jpg" height=400> <img src="img/nts_synch_2_inv.png" height=400>
+  <img src="img/exp_setup.jpg" height=300> <img src="img/nts_synch_2_inv.png" height=300>
 </p>
 
 # References
