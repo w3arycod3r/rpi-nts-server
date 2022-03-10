@@ -1,7 +1,7 @@
 # rpi-nts-server
 This project was created as part of Dr. Austen's Capstone (Senior Design) class at [Tennessee Technological University](https://www.tntech.edu/engineering/programs/ece/).
 
-A tutorial on configuring a Raspberry Pi Based Stratum 1 (GPS fed) NTS Server using chrony
+A tutorial on configuring a Raspberry Pi Based Stratum 1 (GPS fed) [NTS](https://datatracker.ietf.org/doc/html/rfc8915) Server using [chrony](https://en.wikipedia.org/wiki/Chrony).
 
 This server is intended to be located near a window, powered by PoE, feeding a Stratum 2 NTS server (public facing) located in a server room.
 Self-signed certificates can be used to authenticate the local connection between these two servers, but you will want a properly signed cert for the public facing server.
