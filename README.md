@@ -23,6 +23,10 @@ The external GPS antenna may not be required if signal is good enough on the ant
 1 x 4 GB Raspberry Pi 4B  
 1 x Raspberry Pi 4 power supply  
 
+<p align="center">
+  <img src="img/setup.jpg" height=300> <img src="img/stack.jpg" height=300> <img src="img/poe.jpg" height=300>
+</p>
+
 # Software
 ## Raspberry Pi OS
 A recent version of Raspberry Pi OS should be installed and set up on an SD card. Here is a nice tutorial from Raspberry Pi:  
@@ -271,13 +275,18 @@ sudo ./pps -g 17
 ```
 The last command will start the PPS generator on GPIO pin 17. See the pinout below for the location. Pressing CTRL-C will terminate the program. Sample output from this program is also shown below:
 
-![pps_output_inv.png](img/pps_output_inv.png)  
-
-![gpio_pinout.png](img/gpio_pinout.png)
+<p align="center">
+  <img src="img/gpio_pinout.png" height=300> <img src="img/pps_output_inv.png" height=300>
+</p>
 
 Repeat these steps for both the server and client.
 
 Using an oscilloscope, you can measure the phase difference between these PPS signals. This is a measure of the sub-second accuracy of synchronization achieved.
+
+<p align="center">
+  <img src="img/exp_setup.jpg" height=400> <img src="img/nts_synch_2_inv.png" height=400>
+</p>
+
 # References
 https://chrony.tuxfamily.org/faq.html  
 https://chrony.tuxfamily.org/doc/4.0/chrony.conf.html  
